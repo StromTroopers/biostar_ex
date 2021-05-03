@@ -1,12 +1,11 @@
 # biostar_ex
 ```
-
 import pandas as pd
 
-tab=pd.read_csv("/beegfs/data/bguinet/these/Transciptomic_analysis2/Table_RNA_reads3.txt",sep=";")
+tab=pd.read_csv("/beegfs/data/user/these/Transciptomic_analysis2/Table_RNA_reads3.txt",sep=";")
 
 
-Species_name_file="/beegfs/data/bguinet/these/Species_genome_names.txt"
+Species_name_file="/beegfs/data/user/these/Species_genome_names.txt"
 list_of_names1=[]
 for names in open(Species_name_file,"r"):
  	list_of_names1.append(names)
@@ -31,7 +30,7 @@ def getSRRxargs(assembly):
   list_of_SRRs_1=[]
   list_of_SRRs_2=[]
   list_of_SRRs_single=[]
-  for file in os.listdir("/Users/bguinet/Desktop/these/snakemake_test_mapping/"+assembly+"/Mapping/"):
+  for file in os.listdir("/Users/user/Desktop/these/snakemake_test_mapping/"+assembly+"/Mapping/"):
             if file.endswith("_1.tgz"):
               list_of_SRRs_1.append(file)
             if file.endswith("_2.tgz"):
@@ -54,12 +53,12 @@ def getSRRxargs(assembly):
     return "".join(arguments)
 
 def Assembly_to_choose(species):
-  if os.path.exists("/beegfs/data/bguinet/these/Genomes/"+species+"/"+species+"_corrected2.fa"):
-    assembly_file="/beegfs/data/bguinet/these/Genomes/"+str(species)+"/"+str(species)+"_corrected2.fa"
-  elif os.path.exists("/beegfs/data/bguinet/these/Genomes/"+species+"/"+species+"_corrected.fa"):
-    assembly_file="/beegfs/data/bguinet/these/Genomes/"+str(species)+"/"+str(species)+"_corrected.fa"
-  elif os.path.exists("/beegfs/data/bguinet/these/Genomes/"+species+"/"+species+"_bis.fa"):
-    assembly_file="/beegfs/data/bguinet/these/Genomes/"+str(species)+"/"+str(species)+"_bis.fa"
+  if os.path.exists("/beegfs/data/user/these/Genomes/"+species+"/"+species+"_corrected2.fa"):
+    assembly_file="/beegfs/data/user/these/Genomes/"+str(species)+"/"+str(species)+"_corrected2.fa"
+  elif os.path.exists("/beegfs/data/user/these/Genomes/"+species+"/"+species+"_corrected.fa"):
+    assembly_file="/beegfs/data/user/these/Genomes/"+str(species)+"/"+str(species)+"_corrected.fa"
+  elif os.path.exists("/beegfs/data/user/these/Genomes/"+species+"/"+species+"_bis.fa"):
+    assembly_file="/beegfs/data/user/these/Genomes/"+str(species)+"/"+str(species)+"_bis.fa"
   return assembly_file
 
 
@@ -68,22 +67,22 @@ def Assembly_to_choose(species):
 
 rule all:
      input:
-      expand("/beegfs/data/bguinet/these/Genomes/{species}/Mapping/Download_run.log", species = list_of_names2),
-      expand("/beegfs/data/bguinet/these/Genomes/Transcriptomic_reads/Reads_{read}", read = lookupSRR(config["list_of_names2"]))
+      expand("/beegfs/data/user/these/Genomes/{species}/Mapping/Download_run.log", species = list_of_names2),
+      expand("/beegfs/data/user/these/Genomes/Transcriptomic_reads/Reads_{read}", read = lookupSRR(config["list_of_names2"]))
       #expand("TEMPDIR/{setA}_{setB}_", setA = config["setA"], setB = config["setB"])
 
 rule Download_reads:
      output: 
-      outfile="/beegfs/data/bguinet/these/Genomes/{species}/Mapping/Download_run.log",
-      outfile2=expand("/beegfs/data/bguinet/these/Genomes/Transcriptomic_reads/Reads_{read}", read = lookupSRR('{species}'.format(species={species})))
+      outfile="/beegfs/data/user/these/Genomes/{species}/Mapping/Download_run.log",
+      outfile2=expand("/beegfs/data/user/these/Genomes/Transcriptomic_reads/Reads_{read}", read = lookupSRR('{species}'.format(species={species})))
      shell:
       """
-      rm -rf /beegfs/data/bguinet/sra_reads/sra/{wildcards.read}*
-      /beegfs/data/bguinet/TOOLS/sratoolkit.2.11.0-ubuntu64/bin/prefetch --max-size 100000000 {wildcards.read} && /beegfs/data/bguinet/TOOLS/sratoolkit.2.11.0-ubuntu64/bin/fasterq-dump -t /beegfs/data/bguinet/these/Genomes/{wildcards.species}/Mapping/Transcriptomic_reads/ --threads 10 -f {wildcards.read} -O /beegfs/data/bguinet/these/Genomes/{wildcards.species}/Mapping/Transcriptomic_reads/
-      /beegfs/data/bguinet/Bguinet_conda/bin/pigz --best /beegfs/data/bguinet/these/Genomes/{wildcards.species}/Mapping/Transcriptomic_reads/{wildcards.read}*\n")
+      rm -rf /beegfs/data/user/sra_reads/sra/{wildcards.read}*
+      /beegfs/data/user/TOOLS/sratoolkit.2.11.0-ubuntu64/bin/prefetch --max-size 100000000 {wildcards.read} && /beegfs/data/user/TOOLS/sratoolkit.2.11.0-ubuntu64/bin/fasterq-dump -t /beegfs/data/user/these/Genomes/{wildcards.species}/Mapping/Transcriptomic_reads/ --threads 10 -f {wildcards.read} -O /beegfs/data/user/these/Genomes/{wildcards.species}/Mapping/Transcriptomic_reads/
+      /beegfs/data/user/user_conda/bin/pigz --best /beegfs/data/user/these/Genomes/{wildcards.species}/Mapping/Transcriptomic_reads/{wildcards.read}*\n")
       touch {output.outfile}
       touch {output.outfile2}
-      rm -rf /beegfs/data/bguinet/sra_reads/sra/{params.read}*
+      rm -rf /beegfs/data/user/sra_reads/sra/{params.read}*
       """
 ```
 

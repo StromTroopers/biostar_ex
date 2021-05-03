@@ -52,16 +52,6 @@ def getSRRxargs(assembly):
     arguments=argument_paired
     return "".join(arguments)
 
-def Assembly_to_choose(species):
-  if os.path.exists("/beegfs/data/user/these/Genomes/"+species+"/"+species+"_corrected2.fa"):
-    assembly_file="/beegfs/data/user/these/Genomes/"+str(species)+"/"+str(species)+"_corrected2.fa"
-  elif os.path.exists("/beegfs/data/user/these/Genomes/"+species+"/"+species+"_corrected.fa"):
-    assembly_file="/beegfs/data/user/these/Genomes/"+str(species)+"/"+str(species)+"_corrected.fa"
-  elif os.path.exists("/beegfs/data/user/these/Genomes/"+species+"/"+species+"_bis.fa"):
-    assembly_file="/beegfs/data/user/these/Genomes/"+str(species)+"/"+str(species)+"_bis.fa"
-  return assembly_file
-
-
 #Write recipes that are able to render those targets
 
 

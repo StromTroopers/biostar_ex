@@ -1,5 +1,5 @@
 # biostar_ex
-
+```
 
 import pandas as pd
 
@@ -85,4 +85,8 @@ rule Download_reads:
       touch {output.outfile2}
       rm -rf /beegfs/data/bguinet/sra_reads/sra/{params.read}*
       """
+```
+
+
+
 
